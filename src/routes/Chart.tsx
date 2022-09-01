@@ -4,6 +4,9 @@ import { useOutletContext } from "react-router-dom";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 import { darkTheme } from "../theme";
+import { Loader } from "./Coins";
+import { DotPulse } from '@uiball/loaders'
+
 
 type ChartProps = {
   coinId: string;
@@ -28,7 +31,9 @@ function Chart() {
   return (
     <div>
       {isLoading ? (
-        "Loading chart..."
+        <Loader>
+          <DotPulse size={40} speed={1.3} color="white" />
+        </Loader>
       ) : (
         <ApexChart
           type="line"
@@ -54,7 +59,7 @@ function Chart() {
               type: "gradient",
               gradient: {
                 gradientToColors: ["#0be881"],
-                stops: [0, 100]
+                stops: [0, 100],
               },
             },
             colors: ["#0fbcf9"],
@@ -66,21 +71,21 @@ function Chart() {
             yaxis: { show: false },
             xaxis: {
               axisBorder: { show: false },
-              labels: { 
+              labels: {
                 show: false,
                 datetimeFormatter: {
                   month: "MMM 'yy",
-                }
+                },
               },
               axisTicks: { show: false },
               type: "datetime",
-              categories: data?.map(price => (price.time_close)),
+              categories: data?.map((price) => price.time_close),
             },
             tooltip: {
               y: {
-                formatter: (value) => `$ ${value.toFixed(3)}`
-              }
-            }
+                formatter: (value) => `$ ${value.toFixed(3)}`,
+              },
+            },
           }}
         />
       )}

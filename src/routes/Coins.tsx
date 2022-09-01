@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchCoins } from '../api';
+import { DotPulse } from '@uiball/loaders'
 
 
 const Container = styled.div`
@@ -45,9 +45,10 @@ const Coin = styled.li`
   }
 `;
 
-const Loader = styled.span`
-  text-align: center;
-  display: block;
+ export const Loader = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
 `;
 
 const Img = styled.img`
@@ -92,10 +93,12 @@ function Coins() {
         <Title>Coins Tracker</Title>
       </Header>
       {isLoading ? (
-        <Loader>loading...</Loader>
+        <Loader>
+          <DotPulse size={40} speed={1.3} color="white" />
+        </Loader>
       ) : (
         <CoinList>
-          {data?.slice(0,100).map((coin) => (
+          {data?.slice(0, 100).map((coin) => (
             <Coin key={coin.id}>
               <Link to={`/${coin.id}`} state={coin.name}>
                 <Img

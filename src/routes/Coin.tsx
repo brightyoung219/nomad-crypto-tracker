@@ -13,6 +13,8 @@ import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import {Helmet} from "react-helmet-async";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import { Loader } from "./Coins";
+import { DotPulse } from '@uiball/loaders'
 
 
 
@@ -43,11 +45,6 @@ const Btn = styled.div`
   position: absolute;
   left: 0px;
   cursor: pointer;
-`;
-
-const Loader = styled.span`
-  text-align: center;
-  display: block;
 `;
 
 export const Overview = styled.div`
@@ -206,13 +203,15 @@ function Coin() {
         <title>{state ? state : loading ? "loading..." : infoData?.name}</title>
       </Helmet>
       <Header>
-        <Btn onClick={ () => navigate("/") }>
+        <Btn onClick={() => navigate("/")}>
           <FontAwesomeIcon icon={faCircleLeft} />
         </Btn>
         <Title>{state ? state : loading ? "loading..." : infoData?.name}</Title>
       </Header>
       {loading ? (
-        <Loader>loading...</Loader>
+        <Loader>
+          <DotPulse size={40} speed={1.3} color="white" />
+        </Loader>
       ) : (
         <>
           <Overview>
@@ -248,7 +247,7 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tap>
           </Taps>
-          <Outlet context={{coinId, tickerData}}/>
+          <Outlet context={{ coinId, tickerData }} />
         </>
       )}
     </Container>
